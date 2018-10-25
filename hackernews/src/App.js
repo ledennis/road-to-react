@@ -28,6 +28,7 @@ class App extends Component {
             list,
         };
 
+        // Explicityly binds onDismiss to this. See onClickMe for implicit.
         this.onDismiss = this.onDismiss.bind(this);
     }
 
@@ -35,6 +36,11 @@ class App extends Component {
         const isNotId = (item) => item.objectID !== id;
         const updatedList = this.state.list.filter(isNotId);
         this.setState({ list: updatedList });
+    }
+
+    // Implicitly binds onClickMe to this.
+    onClickMe = () => {
+        console.log(this);
     }
 
     render() {
