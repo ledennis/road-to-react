@@ -26,16 +26,22 @@ class App extends Component {
 
         this.state = {
             list,
+            searchTerm: ''
         };
 
         // Explicityly binds onDismiss to this. See onClickMe for implicit.
         this.onDismiss = this.onDismiss.bind(this);
+        this.onSearchChange = this.onSearchChange.bind(this);
     }
 
     onDismiss(id) {
         const isNotId = (item) => item.objectID !== id;
         const updatedList = this.state.list.filter(isNotId);
         this.setState({ list: updatedList });
+    }
+
+    onSearchChange(event) {
+        this.setState({ searchTerm: event.target.value });
     }
 
     // Implicitly binds onClickMe to this.
@@ -46,6 +52,12 @@ class App extends Component {
     render() {
         return (
             <div className="App">
+                <form>
+                    <input
+                        type="text"
+                        onChange={this.onSearchChange}
+                    />
+                </form>
                 {this.state.list.map(item =>
                     <div key={item.objectID}>
                         <span>
