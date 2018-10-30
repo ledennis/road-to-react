@@ -51,7 +51,9 @@ class App extends Component {
 
         // Explicityly binds methods.
         this.setSearchTopStories = this.setSearchTopStories.bind(this);
+        this.fetchSearchTopStories = this.fetchSearchTopStories.bind(this);
         this.onSearchChange = this.onSearchChange.bind(this);
+        this.onSearchSubmit = this.onSearchSubmit.bind(this);
         this.onDismiss = this.onDismiss.bind(this);
     }
 
@@ -59,8 +61,22 @@ class App extends Component {
         this.setState({ result });
     }
 
+    fetchSearchTopStories(searchTerm) {
+        fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}`)
+            .then(response => response.json())
+            .then(result => this.setSearchTopStories(result))
+            .catch(error => error);
+    }
+
     onSearchChange(event) {
         this.setState({ searchTerm: event.target.value });
+    }
+
+    onSearchSubmit(event) {
+        const { searchTerm } = this.state;
+
+        this.fetchSearchTopStories(searchTerm);
+        event.preventDefault();
     }
 
     onDismiss(id) {
@@ -74,10 +90,7 @@ class App extends Component {
     componentDidMount() {
         const { searchTerm } = this.state;
 
-        fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}`)
-            .then(response => response.json())
-            .then(result => this.setSearchTopStories(result))
-            .catch(error => error);
+        this.fetchSearchTopStories(searchTerm);
     }
 
     render() {
@@ -92,6 +105,7 @@ class App extends Component {
                     <Search
                         value={searchTerm}
                         onChange={this.onSearchChange}
+                        onSubmit={this.onSearchSubmit}
                     >
                     Search
                     </Search>
@@ -99,7 +113,6 @@ class App extends Component {
                 {   result ?
                         <Table
                         list={result.hits}
-                        pattern={searchTerm}
                         onDismiss={this.onDismiss}
                         />
                         : null
@@ -110,14 +123,20 @@ class App extends Component {
 }
 
 // Functional Stateless component
-const Search = ({ value, onChange, children }) =>
-    <form>
-        {children}
+const Search = ({
+    value,
+    onChange,
+    onSubmit,
+    children }) =>
+    <form onSubmit={onSubmit}>
         <input
             type="text"
             value={value}
             onChange={onChange}
         />
+        <button type="submit">
+            {children}
+        </button>
     </form>
 
 const largeColumn = {
@@ -133,9 +152,9 @@ const smallColumn = {
 }
 
 // Functional Stateless component
-const Table = ({ list, pattern, onDismiss }) =>
+const Table = ({ list, onDismiss }) =>
     <div>
-        {list.filter(isSearched(pattern)).map(item =>
+        {list.map(item =>
             <div key={item.objectID} className="table-row">
                 <span style={largeColumn}>
                     <a href={item.url}>{item.title} </a>
