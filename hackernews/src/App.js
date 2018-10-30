@@ -51,21 +51,16 @@ class App extends Component {
 
         // Explicityly binds methods.
         this.setSearchTopStories = this.setSearchTopStories.bind(this);
-        this.onDismiss = this.onDismiss.bind(this);
         this.onSearchChange = this.onSearchChange.bind(this);
+        this.onDismiss = this.onDismiss.bind(this);
     }
 
     setSearchTopStories(result) {
         this.setState({ result });
     }
 
-    componentDidMount() {
-        const { searchTerm } = this.state;
-
-        fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}`)
-            .then(response => response.json())
-            .then(result => this.setSearchTopStories(result))
-            .catch(error => error);
+    onSearchChange(event) {
+        this.setState({ searchTerm: event.target.value });
     }
 
     onDismiss(id) {
@@ -76,13 +71,13 @@ class App extends Component {
         });
     }
 
-    onSearchChange(event) {
-        this.setState({ searchTerm: event.target.value });
-    }
+    componentDidMount() {
+        const { searchTerm } = this.state;
 
-    // Implicitly binds onClickMe to this.
-    onClickMe = () => {
-        console.log(this);
+        fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}`)
+            .then(response => response.json())
+            .then(result => this.setSearchTopStories(result))
+            .catch(error => error);
     }
 
     render() {
@@ -101,7 +96,6 @@ class App extends Component {
                     Search
                     </Search>
                 </div>
-                // Ternary Operator
                 {   result ?
                         <Table
                         list={result.hits}
