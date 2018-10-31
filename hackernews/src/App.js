@@ -20,7 +20,8 @@ class App extends Component {
         this.state = {
             results: null,
             searchKey: '',
-            searchTerm: DEFAULT_QUERY
+            searchTerm: DEFAULT_QUERY,
+            error: null
         };
 
         // Explicityly binds methods.
@@ -71,7 +72,7 @@ class App extends Component {
         fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`)
             .then(response => response.json())
             .then(result => this.setSearchTopStories(result))
-            .catch(error => error);
+            .catch(error => this.setState({ error }));
     }
 
     onSearchChange(event) {
@@ -125,7 +126,8 @@ class App extends Component {
         // Destructuring this.state to create local scope variables.
         const { searchTerm,
                 results,
-                searchKey
+                searchKey,
+                error
         } = this.state;
 
         const page = (
@@ -151,6 +153,16 @@ class App extends Component {
                     Search
                     </Search>
                 </div>
+                {
+                    error
+                    ?   <div className="interactions">
+                            <p>Somthing went wrong when retrieving data.</p>
+                        </div>
+                    :   <Table
+                        list={list}
+                        onDismiss ={this.onDismiss}
+                        />
+                }
                 <Table
                 list={list}
                 onDismiss={this.onDismiss}
