@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
-
-const DEFAULT_QUERY = 'redux';
-const DEFAULT_HPP = '100';
-
-const PATH_BASE = 'https://hn.algolia.com/api/v1';
-const PATH_SEARCH = '/search';
-const PARAM_SEARCH = 'query=';
-const PARAM_PAGE = 'page=';
-const PARAM_HPP = 'hitsPerPage=';
-
-const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${DEFAULT_QUERY}`;
+import { Button } from '../Buttons/Buttons';
+import { Table } from '../Tables/Tables';
+import { Search } from '../Search/Search';
+import {
+    PATH_BASE,
+    PATH_SEARCH,
+    PARAM_SEARCH,
+    PARAM_PAGE,
+    PARAM_HPP,
+    DEFAULT_QUERY,
+    DEFAULT_HPP
+} from '../../constants/App.js';
 
 // ES6 Class Component
 class App extends Component {
@@ -141,7 +142,7 @@ class App extends Component {
         const page = (
             results &&
             results[searchKey] &&
-            results[searchKey].hits
+            results[searchKey].page
         ) || 0;
 
         const list = (
@@ -184,73 +185,5 @@ class App extends Component {
         );
     }
 }
-
-// Functional Stateless component
-const Search = ({
-    value,
-    onChange,
-    onSubmit,
-    children }) =>
-    <form onSubmit={onSubmit}>
-        <input
-            type="text"
-            value={value}
-            onChange={onChange}
-        />
-        <button type="submit">
-            {children}
-        </button>
-    </form>
-
-const largeColumn = {
-    width: '40%,'
-}
-
-const midColumn = {
-    width: '30%,'
-}
-
-const smallColumn = {
-    width: '10%,'
-}
-
-// Functional Stateless component
-const Table = ({ list, onDismiss }) =>
-    <div>
-        {list.map(item =>
-            <div key={item.objectID} className="table-row">
-                <span style={largeColumn}>
-                    <a href={item.url}>{item.title} </a>
-                </span>
-                <span style={midColumn}>
-                    {item.author}
-                </span>
-                <span style={smallColumn}>
-                    {item.num_comments}
-                </span>
-                <span style={smallColumn}>
-                    {item.points}
-                </span>
-                <span style={smallColumn}>
-                    <Button
-                        onClick={() => onDismiss(item.objectID)}
-                        className="button-inline"
-                    >
-                        Dismiss
-                    </Button>
-                </span>
-            </div>
-        )}
-    </div>
-
-// Functional Stateless component
-const Button = ({ onClick, className = '', children }) =>
-    <button
-        onClick={onClick}
-        className={className}
-        type="button"
-    >
-        {children}
-    </button>
 
 export default App;
