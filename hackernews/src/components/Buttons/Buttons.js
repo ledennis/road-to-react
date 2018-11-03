@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // Functional Stateless component
-export const Button = ({ onClick, className = '', children }) =>
+const Button = ({ onClick, className = '', children }) =>
     <button
         onClick={onClick}
         className={className}
@@ -9,3 +10,11 @@ export const Button = ({ onClick, className = '', children }) =>
     >
         {children}
     </button>
+
+Button.propTypes = {
+    onClick: PropTypes.func.isRequired,
+    className: PropTypes.string,
+    children: PropTypes.node.isRequired,
+};
+
+export { Button };
