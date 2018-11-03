@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 
 // ES6 class component
 class Search extends Component {
+    componentDidMount() {
+        if (this.input) {
+            this.input.focus();
+        }
+    }
+
     render() {
         const {
             value,
@@ -16,6 +22,7 @@ class Search extends Component {
                     type="text"
                     value={value}
                     onChange={onChange}
+                    ref={(node) => { this.input = node }}
                 />
                 <button type="submit">
                     {children}
