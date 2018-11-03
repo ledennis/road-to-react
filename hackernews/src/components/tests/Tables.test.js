@@ -10,19 +10,19 @@ Enzyme.configure({ adapter: new Adapter() });
 describe('Table', () => {
     const props = {
         list: [
-            { title: '1', author: '1', num_comments: '1', points: '2', objectID: 'y' },
-            { title: '2', author: '2', num_comments: '2', points: '3', objectID: 'z' },
+            { title: '1', author: '1', num_comments: 1, points: 2, objectID: 'y' },
+            { title: '2', author: '2', num_comments: 2, points: 3, objectID: 'z' },
         ],
     };
 
     it('renders without crashing', () => {
       const div = document.createElement('div');
-      ReactDOM.render(<Table { ...props } />, div);
+      ReactDOM.render(<Table { ...props } onDismiss={() => console.log('Dismissed')}/>, div);
     });
 
     it('shows two items in list', () => {
       const element = shallow(
-          <Table { ...props } />
+          <Table { ...props } onDismiss={() => console.log('Dismissed')}/>
       );
 
       expect(element.find('.table-row').length).toBe(2);
@@ -30,7 +30,7 @@ describe('Table', () => {
 
     test('has a valid snapshot', () => {
         const component = renderer.create(
-            <Table { ...props } />
+            <Table { ...props } onDismiss={() => console.log('Dismissed')}/>
         );
         let tree = component.toJSON();
 

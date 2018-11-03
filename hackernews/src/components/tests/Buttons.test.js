@@ -10,13 +10,13 @@ Enzyme.configure({ adapter: new Adapter() });
 describe('Button', () => {
     it('renders without crashing', () => {
       const div = document.createElement('div');
-      ReactDOM.render(<Button />, div);
+      ReactDOM.render(<Button onClick={() => console.log('Hello.')} children={<div>Hi</div>}/>, div);
       ReactDOM.unmountComponentAtNode(div);
     });
 
     it('class name is passed through', () => {
       const element = shallow(
-          <Button className="interactions"> Button </Button>
+          <Button onClick={() => console.log('Hello.')} className="interactions" children={<div>Hi</div>}> Button </Button>
       )
 
       expect(element.find('.interactions').length).toBe(1);
@@ -24,7 +24,7 @@ describe('Button', () => {
 
     test('has a valid snapshot', () => {
         const component = renderer.create(
-            <Button>Butt On Button</Button>
+            <Button onClick={() => console.log('Hello.')} children={<div>Hi</div>}>Butt On Button</Button>
         );
         let tree = component.toJSON();
 
