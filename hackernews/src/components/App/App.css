@@ -2,6 +2,10 @@
     margin: 20px;
 }
 
+.button {
+    margin: 1rem 0;
+}
+
 .interactions {
     text-align: center;
 }
@@ -60,4 +64,8 @@
 .button-active {
     border-radius: 0;
     border-bottom: 1px solid #38BB6C;
+}
+
+.loading-icon {
+    padding-top: 1rem;
 }

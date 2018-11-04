@@ -186,8 +186,8 @@ class App extends Component {
                 />
                 <div className="interactions">
                     { isLoading
-                        ? <Loading />
-                        : <Button onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}>
+                        ? <Loading className="loading-icon"/>
+                        : <Button className="button" onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}>
                             More
                         </Button>
                     }
