@@ -5,7 +5,8 @@ import {
     Button,
     Table,
     Search,
-    Loading
+    Loading,
+    withLoading
 } from '../components.js';
 import {
     PATH_BASE,
@@ -16,6 +17,8 @@ import {
     DEFAULT_QUERY,
     DEFAULT_HPP
 } from '../../constants/App.js';
+
+const ButtonWithLoading = withLoading(Button);
 
 // ES6 Class Component
 class App extends Component {
@@ -185,12 +188,11 @@ class App extends Component {
                 onDismiss={this.onDismiss}
                 />
                 <div className="interactions">
-                    { isLoading
-                        ? <Loading className="loading-icon"/>
-                        : <Button className="button" onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}>
-                            More
-                        </Button>
-                    }
+                    <ButtonWithLoading
+                        isLoading={isLoading}
+                        onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}>
+                        More
+                    </ButtonWithLoading>
                 </div>
             </div>
         );

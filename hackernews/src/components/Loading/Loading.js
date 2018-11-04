@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -10,4 +10,9 @@ const Loading = ({ className = '' }) =>
         <FontAwesomeIcon icon="spinner" />
     </div>
 
-export { Loading };
+const withLoading = (Component) => ({ isLoading, ...rest }) =>
+    isLoading
+        ? <Loading />
+        : <Component { ...rest } />
+
+export { Loading, withLoading };
