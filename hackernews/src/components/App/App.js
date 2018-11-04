@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
-import { Button } from '../Buttons/Buttons';
-import { Table } from '../Tables/Tables';
-import { Search } from '../Search/Search';
+import {
+    Button,
+    Table,
+    Search,
+    Loading
+} from '../components.js';
 import {
     PATH_BASE,
     PATH_SEARCH,
